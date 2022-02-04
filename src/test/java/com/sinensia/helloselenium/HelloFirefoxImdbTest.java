@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 
 import java.util.HashMap;
@@ -43,8 +45,15 @@ public class HelloFirefoxImdbTest {
     js.executeScript("window.scrollTo(0,0)");
     // 5 | sendKeys | id=suggestion-search | ${KEY_ENTER}
     driver.findElement(By.id("suggestion-search")).sendKeys(Keys.ENTER);
-    // 6 | click | linkText=Squid Game | 
+    // 6 | click | linkText=Squid Game |
+
+    WebElement we;
+    we = new WebDriverWait(driver, 15)
+            .until(ExpectedConditions.elementToBeClickable(By.linkText("Squid Game")));
     driver.findElement(By.linkText("Squid Game")).click();
+    // 6.5
+    we = new WebDriverWait(driver, 15)
+            .until(ExpectedConditions.elementToBeClickable(By.linkText("User reviews")));
     // 7 | assertText | xpath=//h1 | Squid Game
     assertThat(driver.findElement(By.xpath("//h1")).getText(), is("Squid Game"));
   }
